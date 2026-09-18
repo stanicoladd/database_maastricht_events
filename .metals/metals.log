@@ -145,3 +145,11 @@ WARNING: Unmatched cancel notification for request id 2
 2026.09.18 17:44:17 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
 2026.09.18 17:44:17 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
 2026.09.18 17:44:17 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
+2026.09.18 17:45:34 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
+2026.09.18 17:45:34 WARN  no build target for: C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java
+2026.09.18 17:45:34 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
+2026.09.18 17:45:34 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
+2026.09.18 17:45:34 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
+2026.09.18 17:45:46 INFO  no build target found for C:\Users\moham\OneDrive\Documents\dummy project 1-1\group-5\InsertionSort.java. Using fallback presentation compiler.
+Sept 18, 2026 5:45:50 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
