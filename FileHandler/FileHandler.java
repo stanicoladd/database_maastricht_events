@@ -1,9 +1,10 @@
-package FileHandler;
+//package FileHandler;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -38,7 +39,7 @@ public class FileHandler{
 
     public static List<String> getColumnByHeader(List<List<String>> calender, String header){
         return calender.stream()
-            .filter(column -> column.get(0).equalsIgnoreCase(header))
+            .filter(column -> column.getFirst().equalsIgnoreCase(header))
             .findFirst()
             .orElse(List.of());
     }
@@ -50,11 +51,43 @@ public class FileHandler{
         
     }
 
-    static void main(){
-        List<List<String>> calendar = readCSV("FileHandler/Maastricht_Events_Calendar_Final_Calendar_.csv");
-        //calendar.stream().forEach(l  ->System.out.println(l.getFirst()));
-        System.out.println(calendar.getFirst().getFirst());
-        System.out.println(calendar.getFirst().getFirst().equalsIgnoreCase("Event Name"));
+    public static int numberOfSportEvents(List<List<String>> calendar){
+        return calendar.stream()
+                .filter(col -> col.getFirst().equalsIgnoreCase("Sport"))
+                .findFirst()
+                .map(col -> col.stream()
+                        .skip(1) // skip header
+                        .filter("yes"::equalsIgnoreCase)
+                        .count()
+                )
+                .orElse(0L).intValue();
     }
+
+    public static int numberOfSportEventsIndoor(List<List<String>> calendar){
+        List<String> sport = getColumnByHeader(calendar, "Sport");
+        List<String> indoorOutdoor = getColumnByHeader(calendar, "Indoor/Outdoor");
+
+         return (int)IntStream.range(1, Math.min(sport.size(), indoorOutdoor.size()))
+                .filter(i -> sport.get(i).equalsIgnoreCase("yes")
+                        && indoorOutdoor.get(i).equalsIgnoreCase("indoor"))
+                .count();
+    }
+
+    public static int numberOfSportEventsOutdoor(List<List<String>> calendar){
+        List<String> sport = getColumnByHeader(calendar, "Sport");
+        List<String> indoorOutdoor = getColumnByHeader(calendar, "Indoor/Outdoor");
+
+        return (int) IntStream.range(1, Math.min(sport.size(), indoorOutdoor.size()))
+                .filter(i -> sport.get(i).equalsIgnoreCase("yes")
+                        && indoorOutdoor.get(i).equalsIgnoreCase("outdoor"))
+                .count();
+    }
+
+    public static void main(String[] args){
+        List<List<String>> calendar = readCSV("Maastricht_Events_Calendar_Final_Calendar_.csv");
+        System.out.println(numberOfSportEventsIndoor(calendar));
+
+    }
+
 
 }
