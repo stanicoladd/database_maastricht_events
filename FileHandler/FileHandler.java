@@ -184,14 +184,23 @@ public class FileHandler {
 
 
 
-    static void main(String[] args){
+    static void main(String[] args) {
         List<List<String>> calendar = readCSV("FileHandler\\MaastrichtEventsCalendarFinalCalendar.csv");
 
-        for(int i = 1; i < 13; i++){
-            System.out.println(numberOfEventsForAGivenMonth(calendar, String.valueOf(i)));
+        List<String> month = List.of("January", "February", "March", "April", "May", "June",
+                "July", "Augustus", "September", "October", "November", "December");
+        System.out.println("The number of Events per month is divided as follows:");
+        for (int i = 1; i < 13; i++) {
+            System.out.println(month.get(i - 1) + " = " + numberOfEventsForAGivenMonth(calendar, String.valueOf(i)));
         }
         System.out.println("****************************************************************");
-        System.out.println(monthWithTheHighestNumberOfEvents(calendar));
+
+        System.out.println("The month with the highest number of events is " + month.get(monthWithTheHighestNumberOfEvents(calendar) - 1));
+
+
+        System.out.printf("the relative percentage of indoor sport event is  %.2f%s\n",(double)numberOfSportEventsIndoor(calendar) / (double)numberOfSportEvents(calendar) * 100, "%");
+
+        System.out.printf("the relative percentage of outdoor sport event is %.2f%s",(double)numberOfSportEventsOutdoor(calendar) / (double)numberOfSportEvents(calendar) * 100, "%");
 
     }
 }
