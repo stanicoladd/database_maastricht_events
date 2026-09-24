@@ -190,7 +190,6 @@ public class FileHandler {
         for(int i = 1; i < 13; i++){
             System.out.println(numberOfEventsForAGivenMonth(calendar, String.valueOf(i)));
         }
-
         System.out.println("****************************************************************");
         System.out.println(monthWithTheHighestNumberOfEvents(calendar));
 
