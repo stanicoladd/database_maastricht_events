@@ -105,21 +105,31 @@ public class FileHandler {
         List<String> end = getColumnByHeader(calendar, "end month");
         int m = Integer.parseInt(month);
 
-        return (int) IntStream.range(1, 12)
+        List<Integer> matchingIndices = IntStream.range(1,calendar.getFirst().size()) // skip header at index 0
                 .filter(i -> {
                     int s = Integer.parseInt(start.get(i));
                     int e = Integer.parseInt(end.get(i));
-                    return s <= m && m <= e;
+                    return (s <= e) ? (s <= m && m <= e) : (m >= s || m <= e); // handles year wrap
                 })
-                .count();
+                .boxed()
+                .toList();
+
+        // Rebuild full rows (all columns) for the matching event indices
+        return matchingIndices.stream()
+                .map(i -> calendar.getFirst().get(i)).toList().size();
+
     }
 
     public static int monthWithTheHighestNumberOfEvents(List<List<String>> calendar) {
-        return IntStream.range(1, 12)
-                .map(i -> numberOfEventsForAGivenMonth(calendar, String.valueOf(i)))
-                .max()
-                .orElse(0);
-
+        int m = 0; int temp; int j = 0;
+        for (int i = 1;  i < 13; i++) {
+            temp = numberOfEventsForAGivenMonth(calendar, String.valueOf(i));
+            if (temp > m) {
+                m = temp;
+                j = i;
+            }
+        }
+        return j;
     }
 
     /**
@@ -172,10 +182,17 @@ public class FileHandler {
                 .count();
     }
 
+
+
     static void main(String[] args){
         List<List<String>> calendar = readCSV("FileHandler\\MaastrichtEventsCalendarFinalCalendar.csv");
 
-        System.out.println(numberOfSportEvents(calendar));
+        for(int i = 1; i < 13; i++){
+            System.out.println(numberOfEventsForAGivenMonth(calendar, String.valueOf(i)));
+        }
+
+        System.out.println("****************************************************************");
+        System.out.println(monthWithTheHighestNumberOfEvents(calendar));
 
     }
 }
