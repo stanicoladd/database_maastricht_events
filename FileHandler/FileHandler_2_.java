@@ -41,6 +41,8 @@ public class FileHandler_2_ { // defines the class. The files must be named File
                 outdoorSportEvents++; //adds one when both conditions are true
             }
         }
+        System.out.println("Number of outdoor sport events : " + outdoorSportEvents);
+        
 
         //answer to question 3
         int totalSportEvents = indoorSportEvents + outdoorSportEvents;
@@ -48,8 +50,8 @@ public class FileHandler_2_ { // defines the class. The files must be named File
             double indoorPercentage = 100.0 * indoorSportEvents / totalSportEvents;
             double outdoorPercentage = 100.0 * outdoorSportEvents / totalSportEvents;
 
-            System.out.println("Indoor sport events: " + indoorPercentage + "%");
-            System.out.println("OUtdoor sport events: "+outdoorPercentage + "%");
+            System.out.println("Percentage of indoor sport events: " + indoorPercentage + "%");
+            System.out.println("Percentage of outdoor sport events: "+outdoorPercentage + "%");
         }
     }
 
