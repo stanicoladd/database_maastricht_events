@@ -182,13 +182,40 @@ public class FileHandler {
                 .count();
     }
 
+    public static int numberOfSportEventsMonth(List<List<String>> calendar,  String month) {
+        List<String> sport = getColumnByHeader(calendar, "Sport");
+        List<String> startMonth = getColumnByHeader(calendar, "Start month");
+        List<String> endMonth = getColumnByHeader(calendar, "End month");
+        int m = Integer.parseInt(month);
+        List<Integer> matchingIndices = IntStream.range(1,calendar.getFirst().size()) // skip header at index 0
+                .filter(i -> {
+                    int s = Integer.parseInt(startMonth.get(i));
+                    int e = Integer.parseInt(endMonth.get(i));
+
+                    return (s <= e) ? (s <= m && m <= e) : (m >= s || m <= e); // handles year wrap
+                })
+                .boxed()
+                .toList();
+        return matchingIndices.stream()
+                .filter(x -> sport.get(x).equalsIgnoreCase("yes"))
+                .map(i -> calendar.getFirst().get(i)).toList().size();
+    }
+
+    public static int sportEventsExamPeriod(List<List<String>> calendar) {
+        List<String> month = List.of("3","5", "12", "10");
+        return
+                month.stream()
+                    .map(m -> numberOfSportEventsMonth(calendar, m))
+                    .reduce(Integer::sum)
+                    .orElse(0);
+    }
 
 
-    static void main(String[] args) {
+    static void main() {
         List<List<String>> calendar = readCSV("FileHandler\\MaastrichtEventsCalendarFinalCalendar.csv");
 
         List<String> month = List.of("January", "February", "March", "April", "May", "June",
-                "July", "Augustus", "September", "October", "November", "December");
+                "July", "Augustus", "September", "October","November", "December");
         System.out.println("The number of Events per month is divided as follows:");
         for (int i = 1; i < 13; i++) {
             System.out.println(month.get(i - 1) + " = " + numberOfEventsForAGivenMonth(calendar, String.valueOf(i)));
@@ -200,7 +227,9 @@ public class FileHandler {
 
         System.out.printf("the relative percentage of indoor sport event is  %.2f%s\n",(double)numberOfSportEventsIndoor(calendar) / (double)numberOfSportEvents(calendar) * 100, "%");
 
-        System.out.printf("the relative percentage of outdoor sport event is %.2f%s",(double)numberOfSportEventsOutdoor(calendar) / (double)numberOfSportEvents(calendar) * 100, "%");
+        System.out.printf("the relative percentage of outdoor sport event is %.2f%s\n",(double)numberOfSportEventsOutdoor(calendar) / (double)numberOfSportEvents(calendar) * 100, "%");
+
+        System.out.println(sportEventsExamPeriod(calendar));
 
     }
 }
