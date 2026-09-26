@@ -56,28 +56,6 @@ public class FileHandler {
         }
     }
 
-    public static List<List<String>> readCSVFile(String fileName){
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName));
-             Scanner scanner = new Scanner(reader)) {
-
-            List<List<String>> list = new ArrayList<>();
-
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] words = Arrays.stream(line.split(","))
-                        .map(s -> s.isBlank() ? "unknown" : s.trim())
-                        .toArray(String[]::new);
-
-                list.add(new ArrayList<>(Arrays.asList(words)));
-            }
-
-            return list;
-
-        } catch (IOException e) {
-            System.out.println("unable to read file");
-            return null;
-        }
-    }
 
     /**
      * Retrieves a column by its header name.
@@ -229,7 +207,7 @@ public class FileHandler {
 
         System.out.printf("the relative percentage of outdoor sport event is %.2f%s\n",(double)numberOfSportEventsOutdoor(calendar) / (double)numberOfSportEvents(calendar) * 100, "%");
 
-        System.out.println(sportEventsExamPeriod(calendar));
+        System.out.println("The number of sport event during exam period is : " +sportEventsExamPeriod(calendar));
 
     }
 }
