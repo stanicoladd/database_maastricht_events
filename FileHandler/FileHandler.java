@@ -38,7 +38,8 @@ public class FileHandler {
             List<String[]> rows = lineRead
                     .map(line -> line.split(","))
                     .toList();
-            if (rows.isEmpty()) return Collections.emptyList();
+            if (rows.isEmpty())
+                return Collections.emptyList();
             int numberOfAttributes = rows.getFirst().length;
             return IntStream.range(0, numberOfAttributes)
                     .mapToObj(i -> rows.stream()
