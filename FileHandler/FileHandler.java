@@ -11,6 +11,7 @@ import java.util.stream.*;
  * 2. Busiest month
  * 3. Indoor vs outdoor sport events
  * 4. Sport events occurring during exam months
+ * 5. % of music events are indoor vs. outdoor
  */
 public class FileHandler {
 
