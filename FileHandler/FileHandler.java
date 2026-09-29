@@ -31,9 +31,9 @@ public class FileHandler {
         long indoorEvents = countEvents(rows, sportIndex, locationIndex, "indoor");
         long outdoorEvents = countEvents(rows, sportIndex, locationIndex, "outdoor");
 
+        System.out.println("Busiest month: " + busiestMonthSummary(eventsPerMonth));
         printIndoorOutdoorStats(indoorEvents, outdoorEvents);
         printEventsPerMonth(eventsPerMonth);
-        printBusiestMonth(eventsPerMonth);
         printMusicPercentages(rows);
 
         System.out.println("\nSport events during exam period: " + sportEventsExamPeriod(rows));
@@ -121,6 +121,9 @@ public class FileHandler {
                 .orElse(List.of());
     }
 
+    //__________________________________________________________________
+    //______________________QUESTION 1 _________________________________
+
     /**
      * Counts sport events occurring in a specific month, considering wrap-around ranges.
      *
@@ -164,21 +167,24 @@ public class FileHandler {
                 ));
     }
 
+
+    //__________________________________________________________________
+    //______________________QUESTION 2 _________________________________
     /**
      * Prints the busiest month based on event counts.
      *
      * @param eventsPerMonth map of month → number of events
      */
-    public static void printBusiestMonth(Map<Integer, Long> eventsPerMonth) {
-        eventsPerMonth.entrySet().stream()
+    public static String busiestMonthSummary(Map<Integer, Long> eventsPerMonth) {
+        return eventsPerMonth.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
-                .ifPresent(entry ->
-                        System.out.println("\nBusiest month: " +
-                                monthName(entry.getKey()) +
-                                " (" + entry.getValue() + " events)")
-                );
+                .map(entry -> monthName(entry.getKey()) + " " +
+                        "(" + entry.getValue() + " events)")
+                .orElse("No data");
     }
 
+    //__________________________________________________________________
+    //______________________QUESTION 3 _________________________________
     /**
      * Counts sport events that match a given indoor/outdoor type.
      *
@@ -196,6 +202,9 @@ public class FileHandler {
                 .filter(row -> row[locationIndex].replace("\"", "").trim().equalsIgnoreCase(type))
                 .count();
     }
+
+    //__________________________________________________________________
+    //______________________QUESTION 4 _________________________________
 
     /**
      * Computes the total number of sport events occurring during exam months:
@@ -215,40 +224,9 @@ public class FileHandler {
                 .sum();
     }
 
-    /**
-     * Prints indoor/outdoor sport event counts and percentages.
-     *
-     * @param indoor  number of indoor sport events
-     * @param outdoor number of outdoor sport events
-     */
-    public static void printIndoorOutdoorStats(long indoor, long outdoor) {
-        long total = indoor + outdoor;
 
-        System.out.println("Indoor events: " + indoor);
-        System.out.println("Outdoor events: " + outdoor);
-
-        if (total > 0) {
-            System.out.printf("The relative percentage of sport event Indoor is %.2f%s\n",
-                    (100.0 * indoor / total), "%");
-            System.out.printf("The relative percentage of sport event Outdoor is %.2f%s\n",
-                    (100.0 * outdoor / total), "%");
-        }
-    }
-
-    /**
-     * Prints the number of events for each month.
-     *
-     * @param eventsPerMonth map of month → number of events
-     */
-    public static void printEventsPerMonth(Map<Integer, Long> eventsPerMonth) {
-        System.out.println("\nEvents per month:");
-
-        IntStream.rangeClosed(1, 12)
-                .forEach(month ->
-                        System.out.println(monthName(month) + ": " + eventsPerMonth.getOrDefault(month, 0L))
-                );
-    }
-
+    //__________________________________________________________________
+    //______________________QUESTION 5 _________________________________
     /**
      * Computes the percentage of music events that match a given location type
      * (e.g., "indoor" or "outdoor").
@@ -284,6 +262,23 @@ public class FileHandler {
         return (100.0 * matching) / totalMusic;
     }
 
+    //__________________________________________________________________
+    //______________________Printing Results _________________________________
+
+    /**
+     * Prints the number of events for each month.
+     *
+     * @param eventsPerMonth map of month → number of events
+     */
+    public static void printEventsPerMonth(Map<Integer, Long> eventsPerMonth) {
+        System.out.println("\nEvents per month:");
+
+        IntStream.rangeClosed(1, 12)
+                .forEach(month ->
+                        System.out.println(monthName(month) + ": " + eventsPerMonth.getOrDefault(month, 0L))
+                );
+    }
+
     /**
      * Prints the percentage of music events that are indoor and outdoor.
      *
@@ -298,6 +293,28 @@ public class FileHandler {
         System.out.printf("Percentage of outdoor music events: %.2f%%\n", outdoorPct);
     }
 
+    /**
+     * Prints indoor/outdoor sport event counts and percentages.
+     *
+     * @param indoor  number of indoor sport events
+     * @param outdoor number of outdoor sport events
+     */
+    public static void printIndoorOutdoorStats(long indoor, long outdoor) {
+        long total = indoor + outdoor;
+
+        System.out.println("Indoor events: " + indoor);
+        System.out.println("Outdoor events: " + outdoor);
+
+        if (total > 0) {
+            System.out.printf("The relative percentage of sport event Indoor is %.2f%s\n",
+                    (100.0 * indoor / total), "%");
+            System.out.printf("The relative percentage of sport event Outdoor is %.2f%s\n",
+                    (100.0 * outdoor / total), "%");
+        }
+    }
+
+    //__________________________________________________________________________________
+    //__________________________________________________________________________________
 
     /**
      * Converts a month number (1–12) into a formatted month name.
