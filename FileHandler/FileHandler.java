@@ -34,6 +34,7 @@ public class FileHandler {
         printIndoorOutdoorStats(indoorEvents, outdoorEvents);
         printEventsPerMonth(eventsPerMonth);
         printBusiestMonth(eventsPerMonth);
+        printMusicPercentages(rows);
 
         System.out.println("\nSport events during exam period: " + sportEventsExamPeriod(rows));
     }
@@ -247,6 +248,56 @@ public class FileHandler {
                         System.out.println(monthName(month) + ": " + eventsPerMonth.getOrDefault(month, 0L))
                 );
     }
+
+    /**
+     * Computes the percentage of music events that match a given location type
+     * (e.g., "indoor" or "outdoor").
+     *
+     * @param rows     the row-wise CSV data
+     * @param locationType  "indoor" or "outdoor"
+     * @return percentage of music events that match the given location type
+     */
+    public static double computeMusicPercentage(List<String[]> rows, String locationType) {
+
+        // Convert to column-wise structure
+        List<List<String>> calendar = toColumnWise(rows);
+
+        // Extract needed columns
+        List<String> music = getColumnByHeader(calendar, "Music");
+        List<String> location = getColumnByHeader(calendar, "Indoor/Outdoor");
+
+        // Count total music events
+        long totalMusic = IntStream.range(1, music.size())
+                .filter(i -> music.get(i).equalsIgnoreCase("yes"))
+                .count();
+
+        if (totalMusic == 0) {
+            return 0.0;
+        }
+
+        // Count music events matching the requested location type
+        long matching = IntStream.range(1, music.size())
+                .filter(i -> music.get(i).equalsIgnoreCase("yes"))
+                .filter(i -> location.get(i).equalsIgnoreCase(locationType))
+                .count();
+
+        return (100.0 * matching) / totalMusic;
+    }
+
+    /**
+     * Prints the percentage of music events that are indoor and outdoor.
+     *
+     * @param rows the row-wise CSV data
+     */
+    public static void printMusicPercentages(List<String[]> rows) {
+
+        double indoorPct = computeMusicPercentage(rows, "indoor");
+        double outdoorPct = computeMusicPercentage(rows, "outdoor");
+
+        System.out.printf("Percentage of indoor music events: %.2f%%\n", indoorPct);
+        System.out.printf("Percentage of outdoor music events: %.2f%%\n", outdoorPct);
+    }
+
 
     /**
      * Converts a month number (1–12) into a formatted month name.
