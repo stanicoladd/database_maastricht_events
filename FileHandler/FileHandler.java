@@ -1,7 +1,10 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 import java.util.stream.*;
 
 /**
@@ -38,6 +41,27 @@ public class FileHandler {
         printMusicPercentages(rows);
 
         System.out.println("\nSport events during exam period: " + sportEventsExamPeriod(rows));
+
+        List<Long> counts = FileHandler.getEventsPerMonthList(eventsPerMonth);
+        EventChart chart =  EventChart.fromEvents(counts, Arrays.stream(Month.values())
+                                .map(Enum::toString).collect(Collectors.toList()));
+
+        EventChart chart1 = EventChart.fromEvents(List.of(indoorEvents, outdoorEvents), List.of("Indoor", "Outdoor"));
+        JFrame frame1 = new JFrame("Events per Month");
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame2 = new JFrame("Events per Month");
+        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame1.add(chart);
+        frame2.add(chart1);
+
+        frame1.setSize(900, 600);
+        frame1.setVisible(true);
+
+        frame2.setSize(900, 600);
+
+        frame2.setVisible(true);
+
     }
 
     /**
@@ -166,6 +190,18 @@ public class FileHandler {
                         month -> month,
                         Collectors.counting()
                 ));
+    }
+
+    /**
+     * Returns a list of event counts for each month (1–12).
+     *
+     * @param eventsPerMonth map of month → number of events
+     * @return list of 12 values, each representing the number of events for that month
+     */
+    public static List<Long> getEventsPerMonthList(Map<Integer, Long> eventsPerMonth) {
+        return IntStream.rangeClosed(1, 12)
+                .mapToObj(month -> eventsPerMonth.getOrDefault(month, 0L))
+                .toList();
     }
 
 
@@ -331,7 +367,7 @@ public class FileHandler {
     /**
      * Enum representing the 12 months of the year.
      */
-    enum Month {
+    public enum Month {
         JANUARY, FEBRUARY, MARCH, APRIL,
         MAY, JUNE, JULY, AUGUST,
         SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
