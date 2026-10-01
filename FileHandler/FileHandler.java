@@ -23,7 +23,7 @@ public class FileHandler {
      */
     public static void main(String[] args) throws IOException {
 
-        List<String[]> rows = loadCSV("FileHandler\\dataexcel.csv", ";");
+        List<String[]> rows = loadCSV("FileHandler/dataexcel.csv", ";");
 
         String[] headers = rows.get(0);
 
