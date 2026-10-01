@@ -21,7 +21,7 @@ public class FileHandler {
     /**
      * Main entry point. Loads the CSV, computes all statistics, and prints results.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         List<String[]> rows = loadCSV("FileHandler/dataexcel.csv", ";");
 
