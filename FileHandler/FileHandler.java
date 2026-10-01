@@ -177,7 +177,7 @@ public class FileHandler {
      *
      * @param calendar column-wise CSV structure
      * @param month    month number as a string
-     * @return number of sport events in that month
+     * @return number of sport events either starting or ending that month
      */
     public static int numberOfSportEventsMonth(List<List<String>> calendar, String month) {
 
