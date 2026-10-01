@@ -11,7 +11,7 @@ Java 24, 25
 
 This project analyzes and categorizes the Maastricht Event Calendar.
 It is part of the DACS course and serves as an introduction to PCL (Project centered learning).
-The goal is to extract meaningful insights from event data using.
+The goal is to extract meaningful insights from event data using java.
 
 ## Goal
 
