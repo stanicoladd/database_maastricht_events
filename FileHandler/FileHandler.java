@@ -18,13 +18,18 @@ import java.util.stream.*;
  */
 public class FileHandler {
 
+
+    //*********************************************************************************************
+    //***************************************Main Method ******************************************//
     /**
      * Main entry point. Loads the CSV, computes all statistics, and prints results.
      */
     public static void main(String[] args) {
 
-        List<String[]> rows = loadCSV("FileHandler/dataexcel.csv", ";");
+        //loading the csv file
+        List<String[]> rows = loadCSV("FileHandler/MaastrichtEventCalendar.csv", ";");
 
+        //retrieving header row
         String[] headers = rows.get(0);
 
         int sportIndex = findColumn(headers, "Sport");
@@ -35,14 +40,29 @@ public class FileHandler {
         long indoorEvents = countEvents(rows, sportIndex, locationIndex, "indoor");
         long outdoorEvents = countEvents(rows, sportIndex, locationIndex, "outdoor");
 
-        System.out.println("Busiest month: " + busiestMonthSummary(eventsPerMonth));
-        printIndoorOutdoorStats(indoorEvents, outdoorEvents);
-        printEventsPerMonth(eventsPerMonth);
-        printMusicPercentages(rows);
 
+        /* result of question 1 */
+        printEventsPerMonth(eventsPerMonth);
+        //********************************//
+
+        /* result for question 2 */
+        System.out.println("Busiest month: " + busiestMonthSummary(eventsPerMonth));
+        //***********************************************************************//
+
+        /* result for question 3 */
+        printIndoorOutdoorStats(indoorEvents, outdoorEvents);
+        //*************************************************//
+
+        /* result for question 4 **************************************************************/
         System.out.println("\nSport events during exam period: " + sportEventsExamPeriod(rows));
+        //************************************************************************************//
+
+        /* result for question 5 */
+        printMusicPercentages(rows);
+        //***********************//
 
         List<Long> counts = FileHandler.getEventsPerMonthList(eventsPerMonth);
+
         EventChart chart =  EventChart.fromEvents(counts, Arrays.stream(Month.values())
                                 .map(Enum::toString).collect(Collectors.toList()));
 
@@ -58,11 +78,14 @@ public class FileHandler {
         frame1.setSize(900, 600);
         frame1.setVisible(true);
 
-        frame2.setSize(900, 600);
+        frame2.setSize(300, 400);
 
         frame2.setVisible(true);
 
     }
+
+    //*********************************************************************************************
+    //*********************************************************************************************//
 
     /**
      * Loads a CSV file into a list of String arrays, each representing a row.
