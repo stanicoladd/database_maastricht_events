@@ -245,7 +245,7 @@ public class FileHandler {
 
     /**
      * Computes the total number of sport events occurring during exam months:
-     * March, May, October, December.
+     * March, May, October, November, December, january,February,June, July, Augustus, September .
      *
      * @param rows row-wise CSV structure
      * @return total number of sport events during exam months
