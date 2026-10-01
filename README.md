@@ -28,6 +28,7 @@ The goal is to extract meaningful insights from event data using.
 * Jeanne Bondue 
 * Frederik Gortner
 * Dominika Hakulinova
-* Mohamed Keita, David Nisenboym
+* Mohamed Keita
+* David Nisenboym
 * Thuy Linh Pham
 * Nicola Stan
