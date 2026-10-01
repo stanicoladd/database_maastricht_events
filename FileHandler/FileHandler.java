@@ -49,7 +49,7 @@ public class FileHandler {
         EventChart chart1 = EventChart.fromEvents(List.of(indoorEvents, outdoorEvents), List.of("Indoor", "Outdoor"));
         JFrame frame1 = new JFrame("Events per Month");
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JFrame frame2 = new JFrame("Events per Month");
+        JFrame frame2 = new JFrame("Indoor/Outdoor Events counts");
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame1.add(chart);
